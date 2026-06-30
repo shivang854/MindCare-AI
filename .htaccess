@@ -1,0 +1,26 @@
+
+Options -Indexes
+
+<Files ".env">
+    Require all denied
+</Files>
+
+<Files "composer.json">
+    Require all denied
+</Files>
+
+<Files "composer.lock">
+    Require all denied
+</Files>
+
+<Files "gemini_log.txt">
+    Require all denied
+</Files>
+
+<Files "gemini_raw.txt">
+    Require all denied
+</Files>
+
+<Files "http_headers.txt">
+    Require all denied
+</Files>

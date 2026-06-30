@@ -1,0 +1,18 @@
+Array
+(
+    [0] => HTTP/1.1 429 Too Many Requests
+    [1] => X-Gemini-Service-Tier: standard
+    [2] => Vary: X-Origin
+    [3] => Vary: Referer
+    [4] => Content-Type: application/json; charset=UTF-8
+    [5] => Date: Sun, 28 Jun 2026 20:05:29 GMT
+    [6] => Server: scaffolding on HTTPServer2
+    [7] => X-XSS-Protection: 0
+    [8] => X-Frame-Options: SAMEORIGIN
+    [9] => X-Content-Type-Options: nosniff
+    [10] => Server-Timing: gfet4t7; dur=370
+    [11] => Alt-Svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+    [12] => Accept-Ranges: none
+    [13] => Vary: Origin,Accept-Encoding
+    [14] => Connection: close
+)
