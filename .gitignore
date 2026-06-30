@@ -1,1 +1,28 @@
-# Composer /vendor/ # Logs *.log gemini_log.txt gemini_raw.txt http_headers.txt # Uploads /assets/uploads/ /assets/profiles/ # OS Files .DS_Store Thumbs.db # VS Code .vscode/ # Cache .cache/.env
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Composer
+/vendor/
+
+# Logs
+*.log
+gemini_log.txt
+gemini_raw.txt
+http_headers.txt
+
+# Uploads
+/assets/uploads/
+/assets/profiles/
+
+# Cache
+.cache/
+
+# VS Code
+.vscode/
+
+# OS Files
+.DS_Store
+Thumbs.db
