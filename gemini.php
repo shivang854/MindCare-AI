@@ -1,12 +1,24 @@
 <?php
-require __DIR__ . '/vendor/autoload.php';
 
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-$dotenv->load();
+require_once __DIR__ . '/vendor/autoload.php';
+
+if (!isset($_ENV['GEMINI_API_KEY'])) {
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+    $dotenv->safeLoad();
+}
 
 function askGemini($message)
 {
-    $apiKey = getenv("GEMINI_API_KEY");
+
+    $apiKey = getenv('GEMINI_API_KEY');
+
+if (!$apiKey) {
+    return [
+        "error" => [
+            "message" => "GEMINI_API_KEY not found"
+        ]
+    ];
+}
 
 if (empty($apiKey)) {
     die("❌ GEMINI_API_KEY not found");
