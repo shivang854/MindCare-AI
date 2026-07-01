@@ -1,59 +1,86 @@
 <?php
-
 session_start();
 
-
 include '../auth/config/db.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
+use Cloudinary\Cloudinary;
+use Cloudinary\Configuration\Configuration;
 
-if(!isset($_SESSION['user_id'])){
-    header("Location: auth/login.php");
+if (!isset($_SESSION['user_id'])) {
+    header("Location: ../auth/login.php");
     exit();
 }
 
-if(isset($_POST['upload'])){
+Configuration::instance([
+    'cloud' => [
+        'cloud_name' => getenv('CLOUDINARY_CLOUD_NAME'),
+        'api_key' => getenv('CLOUDINARY_API_KEY'),
+        'api_secret' => getenv('CLOUDINARY_API_SECRET'),
+    ],
+    'url' => [
+        'secure' => true
+    ]
+]);
 
-    if(isset($_FILES['profile']) && $_FILES['profile']['error']==0){
 
-        $user_id=$_SESSION['user_id'];
+$cloudinary = new Cloudinary(
+    Configuration::instance()
+);
 
-        $ext=strtolower(pathinfo($_FILES['profile']['name'],PATHINFO_EXTENSION));
+if (isset($_POST['upload'])) {
 
-        $allowed=['jpg','jpeg','png','webp'];
+    if (isset($_FILES['profile']) && $_FILES['profile']['error'] == 0) {
 
-        if(!in_array($ext,$allowed)){
+        $user_id = $_SESSION['user_id'];
+
+        $ext = strtolower(pathinfo($_FILES['profile']['name'], PATHINFO_EXTENSION));
+
+        $allowed = ['jpg', 'jpeg', 'png', 'webp'];
+
+        if (!in_array($ext, $allowed)) {
             die("Only JPG, JPEG, PNG and WEBP allowed.");
         }
 
-        $filename="user_".$user_id."_".time().".".$ext;
+        try {
 
-        $target="../assets/uploads/profiles/".$filename;
+            $upload = $cloudinary->uploadApi()->upload(
+    $_FILES['profile']['tmp_name'],
+    [
+        'folder' => 'mindcare_profiles',
+        'public_id' => 'user_'.$user_id,
+        'overwrite' => true,
+        'resource_type' => 'image'
+    ]
+);
+                $_FILES['profile']['tmp_name'],
+                [
+                    'folder' => 'mindcare_profiles',
+                    'public_id' => 'user_' . $user_id,
+                    'overwrite' => true
+                ]
+            );
 
-        if(move_uploaded_file($_FILES['profile']['tmp_name'],$target)){
+            $imageUrl = $upload['secure_url'];
 
-            $stmt=$conn->prepare("
-            UPDATE users
-            SET profile_image=?
-            WHERE id=?
+            $stmt = $conn->prepare("
+                UPDATE users
+                SET profile_image=?
+                WHERE id=?
             ");
 
-            $stmt->bind_param("si",$filename,$user_id);
+            $stmt->bind_param("si", $imageUrl, $user_id);
             $stmt->execute();
 
-            echo "Redirecting...";
-
-            header("Location: /MindCare-AI/profile.php?upload=success");
-
-    
+            header("Location: ../profile.php?upload=success");
             exit();
 
-        }else{
+        } catch (Exception $e) {
 
-            echo "Upload failed.";
+            die("Cloudinary Error: " . $e->getMessage());
 
         }
 
     }
 
 }
-?>

@@ -41,12 +41,13 @@ $user = $stmt->get_result()->fetch_assoc();
 
 <div class="card shadow-lg border-0 rounded-4 p-5 text-center">
 
+
 <img
-src="assets/uploads/profiles/<?php echo $user['profile_image']; ?>"
-class="rounded-circle mb-4"
-width="160"
-height="160"
-style="object-fit:cover;">
+    src="<?php echo !empty($user['profile_image']) ? $user['profile_image'] : 'assets/uploads/profiles/default.png'; ?>"
+    class="rounded-circle mb-4"
+    width="160"
+    height="160"
+    style="object-fit: cover;">
 
 <h2>
 <?php echo $user['full_name']; ?>

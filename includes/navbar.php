@@ -73,16 +73,16 @@ if(isset($_SESSION['user_id'])){
        href="#"
        data-bs-toggle="dropdown">
 
-        <img
-            src="assets/uploads/profiles/<?php echo $profileImage; ?>"
-            width="45"
-            height="45"
-            class="rounded-circle border border-2 border-primary"
-            style="object-fit:cover;">
+<img
+    src="<?php echo !empty($profileImage) ? $profileImage : 'assets/uploads/profiles/default.png'; ?>"
+width="45"
+height="45"
+class="rounded-circle border border-2 border-primary"
+style="object-fit:cover;">
 
-        <span class="ms-2 fw-semibold text-dark">
-            <?php echo $_SESSION['full_name']; ?>
-        </span>
+<span class="ms-2 fw-semibold text-dark">
+    <?php echo $_SESSION['full_name']; ?>
+</span>
 
     </a>
 
