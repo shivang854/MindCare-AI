@@ -5,6 +5,14 @@ session_start();
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
+ini_set('log_errors', 1);
+
+register_shutdown_function(function () {
+    $error = error_get_last();
+    if ($error) {
+        echo json_encode($error);
+    }
+});
 
 include '../auth/config/db.php';
 
