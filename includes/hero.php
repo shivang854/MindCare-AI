@@ -55,9 +55,10 @@
         <div class="col-lg-6 text-center position-relative" data-aos="fade-left">
 
    
-        <img src="/MindCare-AI/assets/images/hero/brain.png"
+        <img src="./assets/images/hero/brain.png"
      class="img-fluid"
-     alt="3D Brain">  
+     alt="3D Brain">
+     
      <!-- Floating Card 2 -->
 <div class="glass-card card-two">
 
