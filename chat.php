@@ -660,19 +660,19 @@ if ("speechSynthesis" in window) {
 
     })
 
-    .catch(err=>{
+    .catch(async err => {
 
-        console.error(err);
+    console.error(err);
 
-        document.getElementById("typing").remove();
+    document.getElementById("typing").remove();
 
-        sendBtn.disabled=false;
+    sendBtn.disabled = false;
 
-        sendBtn.innerText="Send";
+    sendBtn.innerText = "Send";
 
-        alert("Something went wrong.");
-
-    });
+    alert("Open F12 → Network → send_chat.php → Response and copy the full error.");
+});
+    
 
 });
 
