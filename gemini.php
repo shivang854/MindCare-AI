@@ -7,7 +7,11 @@ $dotenv->load();
 
 function askGemini($message)
 {
-    $apiKey = $_ENV['GEMINI_API_KEY'];
+    $apiKey = getenv("GEMINI_API_KEY");
+
+if (empty($apiKey)) {
+    die("❌ GEMINI_API_KEY not found");
+}
 
     $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" . $apiKey;
 
