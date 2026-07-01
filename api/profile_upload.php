@@ -45,14 +45,6 @@ if (isset($_POST['upload'])) {
         try {
 
             $upload = $cloudinary->uploadApi()->upload(
-    $_FILES['profile']['tmp_name'],
-    [
-        'folder' => 'mindcare_profiles',
-        'public_id' => 'user_'.$user_id,
-        'overwrite' => true,
-        'resource_type' => 'image'
-    ]
-);
                 $_FILES['profile']['tmp_name'],
                 [
                     'folder' => 'mindcare_profiles',
