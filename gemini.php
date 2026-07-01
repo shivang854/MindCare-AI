@@ -1,16 +1,27 @@
 <?php
-
 require_once __DIR__ . '/vendor/autoload.php';
 
-if (!isset($_ENV['GEMINI_API_KEY'])) {
+// Sirf local development me .env load karo
+if (file_exists(__DIR__ . '/.env')) {
     $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
     $dotenv->safeLoad();
 }
 
+
+
 function askGemini($message)
 {
 
-    $apiKey = getenv('GEMINI_API_KEY');
+    $apiKey = $_ENV['GEMINI_API_KEY'] ?? getenv('GEMINI_API_KEY') ?? '';
+
+if (empty($apiKey)) {
+    return [
+        "error" => [
+            "message" => "GEMINI_API_KEY not found"
+        ]
+    ];
+}
+
 
 if (!$apiKey) {
     return [
