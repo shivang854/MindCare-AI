@@ -1,39 +1,30 @@
 <?php
+
 require_once __DIR__ . '/vendor/autoload.php';
 
-// Sirf local development me .env load karo
+/*
+|------------------------------------------------------------
+| Load .env only in LOCAL development
+| Render production me .env file nahi hoti
+|------------------------------------------------------------
+*/
 if (file_exists(__DIR__ . '/.env')) {
     $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
     $dotenv->safeLoad();
 }
 
-
-
 function askGemini($message)
 {
-
+    // Render env vars + local .env dono support
     $apiKey = $_ENV['GEMINI_API_KEY'] ?? getenv('GEMINI_API_KEY') ?? '';
 
-if (empty($apiKey)) {
-    return [
-        "error" => [
-            "message" => "GEMINI_API_KEY not found"
-        ]
-    ];
-}
-
-
-if (!$apiKey) {
-    return [
-        "error" => [
-            "message" => "GEMINI_API_KEY not found"
-        ]
-    ];
-}
-
-if (empty($apiKey)) {
-    die("❌ GEMINI_API_KEY not found");
-}
+    if (empty($apiKey)) {
+        return [
+            "error" => [
+                "message" => "GEMINI_API_KEY not found"
+            ]
+        ];
+    }
 
     $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" . $apiKey;
 
@@ -96,64 +87,32 @@ PROMPT;
             "ignore_errors" => true
         ]
     ];
+
     $context = stream_context_create($options);
+    $result = file_get_contents($url, false, $context);
 
-$result = file_get_contents($url, false, $context);
-
-if ($result === false) {
-
-    $error = error_get_last();
-
-    return [
-        "error" => [
-            "message" => $error['message'] ?? "Unknown HTTP error"
-        ]
-    ];
-}
-
-$response = json_decode($result, true);
-
-if (json_last_error() !== JSON_ERROR_NONE) {
-
-    return [
-        "error" => [
-            "message" => "Invalid JSON: " . json_last_error_msg(),
-            "raw" => $result
-        ]
-    ];
-}
-
-return $response;
-
-file_put_contents(__DIR__ . "/http_headers.txt", print_r($http_response_header ?? [], true));
-file_put_contents(__DIR__ . "/gemini_raw.txt", $result === false ? "FALSE" : $result);
-
-
-
-if ($result === false) {
-    return [
-        "candidates" => [
-            [
-                "content" => [
-                    "parts" => [
-                        [
-                            "text" => "I'm sorry, something went wrong. Please try again."
-                        ]
-                    ]
-                ]
+    if ($result === false) {
+        $error = error_get_last();
+        return [
+            "error" => [
+                "message" => $error['message'] ?? "Unknown HTTP error"
             ]
-        ]
-    ];
+        ];
+    }
+
+    $response = json_decode($result, true);
+
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        return [
+            "error" => [
+                "message" => "Invalid JSON: " . json_last_error_msg(),
+                "raw" => $result
+            ]
+        ];
+    }
+
+    return $response;
 }
-
-file_put_contents(
-    __DIR__ . "/gemini_log.txt",
-    $result
-);
-
-return json_decode($result, true);
-}
-
 
 function askGeminiSummary($conversation)
 {
