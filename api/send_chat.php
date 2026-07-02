@@ -181,9 +181,8 @@ $fullPrompt .= $history;
 $fullPrompt .= "User: ".$message;
 
 $response = askGemini($fullPrompt);
-echo "<pre>";
-print_r($response);
-exit();
+
+
 
 
 
@@ -293,3 +292,4 @@ echo json_encode([
     "bot" => $reply,
     "risk" => $risk
 ]);
+exit();
