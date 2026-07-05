@@ -2,6 +2,10 @@
 
 An AI-Powered Mental Wellness Platform built using PHP, MySQL, Bootstrap, JavaScript, and Google Gemini API.
 
+🚀 Live Demo link
+"https://mindcare-ai-j8oi.onrender.com"
+
+
 📖 About the Project
 
 MindCare AI is a full-stack web application designed to support users in their mental wellness journey through intelligent AI conversations, mood tracking, journaling, wellness analytics, and emergency support features.
@@ -109,7 +113,7 @@ Start MySQL
 
 Open the application in your browser:
 
-http://localhost/MindCare-AI
+https://mindcare-ai-j8oi.onrender.com
 
 Passwords are securely hashed before storage.
 SQL Injection protection using prepared statements.
